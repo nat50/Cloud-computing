@@ -1,0 +1,4 @@
+*
+!requirements-worker.txt
+!src/
+!models/yolo26n.onnx

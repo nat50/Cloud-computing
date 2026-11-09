@@ -1,0 +1,9 @@
+# Everything for your machine: producer, tools, tests
+-r requirements-worker.txt
+google-cloud-monitoring>=2.19
+google-cloud-bigquery[pandas]>=3.20
+pandas>=2.2
+matplotlib>=3.8
+pytest>=8.0
+
+# Once, to export the model (pulls in PyTorch):  pip install ultralytics

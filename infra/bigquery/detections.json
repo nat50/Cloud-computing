@@ -1,0 +1,21 @@
+[
+  {"name": "frame_id", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "camera_id", "type": "STRING"},
+  {"name": "gcs_uri", "type": "STRING"},
+  {"name": "num_objects", "type": "INTEGER"},
+  {"name": "objects", "type": "RECORD", "mode": "REPEATED", "fields": [
+    {"name": "class_id", "type": "INTEGER"},
+    {"name": "class_name", "type": "STRING"},
+    {"name": "conf", "type": "FLOAT"},
+    {"name": "x1", "type": "FLOAT"},
+    {"name": "y1", "type": "FLOAT"},
+    {"name": "x2", "type": "FLOAT"},
+    {"name": "y2", "type": "FLOAT"}
+  ]},
+  {"name": "worker_pod", "type": "STRING"},
+  {"name": "delivery_attempt", "type": "INTEGER"},
+  {"name": "download_ms", "type": "FLOAT"},
+  {"name": "infer_ms", "type": "FLOAT"},
+  {"name": "published_at", "type": "TIMESTAMP"},
+  {"name": "processed_at", "type": "TIMESTAMP", "mode": "REQUIRED"}
+]

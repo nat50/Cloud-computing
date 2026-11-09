@@ -1,0 +1,37 @@
+# KEDA reads the backlog of the subscription from Cloud Monitoring
+# (using the keda-operator Google service account via Workload Identity)
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: gcp-workload-identity
+  namespace: __NAMESPACE__
+spec:
+  podIdentity:
+    provider: gcp
+---
+# pods = ceil(undelivered messages / KEDA_TARGET_BACKLOG), between min and max.
+# The backlog metric lags real time by about 1-2 minutes.
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: worker
+  namespace: __NAMESPACE__
+spec:
+  scaleTargetRef:
+    name: worker
+  minReplicaCount: __KEDA_MIN__
+  maxReplicaCount: __KEDA_MAX__
+  pollingInterval: 10
+  advanced:
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleDown:
+          stabilizationWindowSeconds: 60  # default 300 s; shorter so scale-down shows in the demo
+  triggers:
+    - type: gcp-pubsub
+      authenticationRef:
+        name: gcp-workload-identity
+      metadata:
+        subscriptionName: projects/__PROJECT_ID__/subscriptions/__SUBSCRIPTION__
+        mode: SubscriptionSize
+        value: "__KEDA_TARGET__"

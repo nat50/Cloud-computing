@@ -1,0 +1,47 @@
+# Placeholders in double underscores are filled from .env by infra/cluster.sh
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: __NAMESPACE__
+---
+# Workload Identity: pods using this Kubernetes service account act as the
+# yolo-worker Google service account. No JSON key anywhere.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: worker
+  namespace: __NAMESPACE__
+  annotations:
+    iam.gke.io/gcp-service-account: __WORKER_GSA__
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  namespace: __NAMESPACE__
+spec:
+  replicas: __REPLICAS__
+  selector:
+    matchLabels: {app: worker}
+  template:
+    metadata:
+      labels: {app: worker}
+    spec:
+      serviceAccountName: worker
+      containers:
+        - name: worker
+          image: __IMAGE__
+          env:
+            - {name: PROJECT_ID, value: "__PROJECT_ID__"}
+            - {name: SUBSCRIPTION, value: "__SUBSCRIPTION__"}
+            - {name: BQ_TABLE, value: "__BQ_TABLE__"}
+            - name: POD_NAME
+              valueFrom: {fieldRef: {fieldPath: metadata.name}}
+          # Ready = model loaded. "Ready pods" is what the test scripts count.
+          readinessProbe:
+            httpGet: {path: /healthz, port: 8080}
+            periodSeconds: 2
+          # Autopilot bills by requests: 1 vCPU + 2 GiB ~ 0.054 USD/hour (us-central1)
+          resources:
+            requests: {cpu: "1", memory: 2Gi}
+            limits: {cpu: "1", memory: 2Gi}

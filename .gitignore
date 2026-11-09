@@ -1,0 +1,30 @@
+# Secrets: never commit service account keys or local config
+.env
+*-key.json
+*credentials*.json
+service-account*.json
+
+# Model weights (export locally with models/export_yolo26.py)
+*.pt
+*.onnx
+
+# Videos and generated frames
+data/
+*.mp4
+*.avi
+*.mov
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.ruff_cache/

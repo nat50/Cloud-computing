@@ -1,0 +1,117 @@
+{
+  "displayName": "YOLO26 Stream Pipeline",
+  "mosaicLayout": {
+    "columns": 12,
+    "tiles": [
+      {
+        "xPos": 0, "yPos": 0, "width": 6, "height": 4,
+        "widget": {
+          "title": "Backlog: undelivered messages (__SUBSCRIPTION__)",
+          "xyChart": {
+            "dataSets": [{
+              "plotType": "LINE",
+              "timeSeriesQuery": {"timeSeriesFilter": {
+                "filter": "metric.type=\"pubsub.googleapis.com/subscription/num_undelivered_messages\" resource.type=\"pubsub_subscription\" resource.label.\"subscription_id\"=\"__SUBSCRIPTION__\"",
+                "aggregation": {"alignmentPeriod": "60s", "perSeriesAligner": "ALIGN_MEAN"}
+              }}
+            }],
+            "yAxis": {"label": "messages", "scale": "LINEAR"}
+          }
+        }
+      },
+      {
+        "xPos": 6, "yPos": 0, "width": 6, "height": 4,
+        "widget": {
+          "title": "Worker pods running",
+          "xyChart": {
+            "dataSets": [{
+              "plotType": "LINE",
+              "timeSeriesQuery": {"timeSeriesFilter": {
+                "filter": "metric.type=\"kubernetes.io/container/uptime\" resource.type=\"k8s_container\" resource.label.\"namespace_name\"=\"__NAMESPACE__\" resource.label.\"container_name\"=\"worker\"",
+                "aggregation": {"alignmentPeriod": "60s", "perSeriesAligner": "ALIGN_MEAN",
+                                "crossSeriesReducer": "REDUCE_COUNT", "groupByFields": []}
+              }}
+            }],
+            "yAxis": {"label": "pods", "scale": "LINEAR"}
+          }
+        }
+      },
+      {
+        "xPos": 0, "yPos": 4, "width": 6, "height": 4,
+        "widget": {
+          "title": "Oldest unacked message age (s)",
+          "xyChart": {
+            "dataSets": [{
+              "plotType": "LINE",
+              "timeSeriesQuery": {"timeSeriesFilter": {
+                "filter": "metric.type=\"pubsub.googleapis.com/subscription/oldest_unacked_message_age\" resource.type=\"pubsub_subscription\" resource.label.\"subscription_id\"=\"__SUBSCRIPTION__\"",
+                "aggregation": {"alignmentPeriod": "60s", "perSeriesAligner": "ALIGN_MAX"}
+              }}
+            }],
+            "yAxis": {"label": "seconds", "scale": "LINEAR"}
+          }
+        }
+      },
+      {
+        "xPos": 6, "yPos": 4, "width": 6, "height": 4,
+        "widget": {
+          "title": "Messages/s: published vs acked",
+          "xyChart": {
+            "dataSets": [
+              {
+                "plotType": "LINE", "legendTemplate": "published",
+                "timeSeriesQuery": {"timeSeriesFilter": {
+                  "filter": "metric.type=\"pubsub.googleapis.com/topic/send_message_operation_count\" resource.type=\"pubsub_topic\" resource.label.\"topic_id\"=\"__TOPIC__\"",
+                  "aggregation": {"alignmentPeriod": "60s", "perSeriesAligner": "ALIGN_RATE",
+                                  "crossSeriesReducer": "REDUCE_SUM", "groupByFields": []}
+                }}
+              },
+              {
+                "plotType": "LINE", "legendTemplate": "acked",
+                "timeSeriesQuery": {"timeSeriesFilter": {
+                  "filter": "metric.type=\"pubsub.googleapis.com/subscription/ack_message_count\" resource.type=\"pubsub_subscription\" resource.label.\"subscription_id\"=\"__SUBSCRIPTION__\"",
+                  "aggregation": {"alignmentPeriod": "60s", "perSeriesAligner": "ALIGN_RATE",
+                                  "crossSeriesReducer": "REDUCE_SUM", "groupByFields": []}
+                }}
+              }
+            ],
+            "yAxis": {"label": "messages/s", "scale": "LINEAR"}
+          }
+        }
+      },
+      {
+        "xPos": 0, "yPos": 8, "width": 6, "height": 4,
+        "widget": {
+          "title": "Worker CPU (cores used, all pods)",
+          "xyChart": {
+            "dataSets": [{
+              "plotType": "STACKED_AREA",
+              "timeSeriesQuery": {"timeSeriesFilter": {
+                "filter": "metric.type=\"kubernetes.io/container/cpu/core_usage_time\" resource.type=\"k8s_container\" resource.label.\"namespace_name\"=\"__NAMESPACE__\" resource.label.\"container_name\"=\"worker\"",
+                "aggregation": {"alignmentPeriod": "60s", "perSeriesAligner": "ALIGN_RATE",
+                                "crossSeriesReducer": "REDUCE_SUM", "groupByFields": []}
+              }}
+            }],
+            "yAxis": {"label": "cores", "scale": "LINEAR"}
+          }
+        }
+      },
+      {
+        "xPos": 6, "yPos": 8, "width": 6, "height": 4,
+        "widget": {
+          "title": "Dead-lettered messages",
+          "xyChart": {
+            "dataSets": [{
+              "plotType": "STACKED_BAR",
+              "timeSeriesQuery": {"timeSeriesFilter": {
+                "filter": "metric.type=\"pubsub.googleapis.com/subscription/dead_letter_message_count\" resource.type=\"pubsub_subscription\" resource.label.\"subscription_id\"=\"__SUBSCRIPTION__\"",
+                "aggregation": {"alignmentPeriod": "60s", "perSeriesAligner": "ALIGN_DELTA"}
+              }}
+            }],
+            "yAxis": {"label": "messages", "scale": "LINEAR"}
+          }
+        }
+      }
+    ]
+  }
+}

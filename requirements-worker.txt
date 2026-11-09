@@ -1,0 +1,7 @@
+# Installed in the worker image (Dockerfile)
+numpy>=1.26
+opencv-python-headless>=4.9
+onnxruntime>=1.18
+google-cloud-pubsub>=2.21
+google-cloud-storage>=2.16
+google-cloud-bigquery>=3.20
