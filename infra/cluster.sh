@@ -33,8 +33,9 @@ up() {
   helm repo update kedacore >/dev/null
   helm upgrade --install keda kedacore/keda --namespace keda --create-namespace --wait
   kubectl annotate serviceaccount keda-operator -n keda --overwrite "iam.gke.io/gcp-service-account=$KEDA_GSA"
-  kubectl rollout restart deployment/keda-operator -n keda
+  kubectl rollout restart deployment/keda-operator deployment/keda-operator-metrics-apiserver -n keda
   kubectl rollout status deployment/keda-operator -n keda --timeout=300s
+  kubectl rollout status deployment/keda-operator-metrics-apiserver -n keda --timeout=300s
 }
 
 deploy() {  # mode [pods]

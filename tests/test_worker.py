@@ -33,13 +33,14 @@ def run(data, download=lambda uri: JPEG, write_ok=True):
         rows.append(row)
 
     msg = FakeMessage(data)
-    Handler(download, lambda img: [Detection("car", 0.9, 1, 2, 3, 4)], write_row, "pod-a")(msg)
+    Handler(download, lambda img: [Detection(2, "car", 0.9, 1, 2, 3, 4)], write_row, "pod-a")(msg)
     return msg.result, rows
 
 
 def test_ack_only_after_write():
     result, rows = run(FRAME.to_bytes())
     assert result == "ack" and rows[0]["frame_id"] == FRAME.frame_id and rows[0]["num_objects"] == 1
+    assert rows[0]["objects"][0]["class_id"] == 2
 
 
 def test_nack_when_write_fails():
@@ -61,7 +62,7 @@ def test_boxes_map_back_to_original_image():
     out[0, 0] = [100, 190, 200, 290, 0.9, 2]  # kept
     out[0, 1] = [0, 0, 10, 10, 0.1, 0]  # below threshold
     [d] = to_detections(out, scale, left, top, (720, 1280), ["person", "bicycle", "car"], 0.25)
-    assert (d.class_name, d.x1, d.y1, d.x2, d.y2) == ("car", 200, 100, 400, 300)
+    assert (d.class_id, d.class_name, d.x1, d.y1, d.x2, d.y2) == (2, "car", 200, 100, 400, 300)
 
 
 def test_schedule():

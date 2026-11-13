@@ -81,9 +81,9 @@ def from_monitoring(start: datetime, end: datetime, out: Path) -> None:
     pd.DataFrame(sorted(rows), columns=["ts", "backlog"]).to_csv(out / "backlog.csv", index=False)
 
 
-def read(path: Path, dates: list[str]) -> pd.DataFrame:
-    if not path.exists() or path.stat().st_size < 30:
-        return pd.DataFrame(columns=dates)
+def read(path: Path, dates: list[str], cols: list[str]) -> pd.DataFrame:
+    if not path.exists() or path.stat().st_size == 0:
+        return pd.DataFrame(columns=cols)
     df = pd.read_csv(path)
     for c in dates:
         df[c] = pd.to_datetime(df[c], utc=True, format="ISO8601")
@@ -91,16 +91,19 @@ def read(path: Path, dates: list[str]) -> pd.DataFrame:
 
 
 def charts_and_stats(out: Path, meta: dict) -> dict:
-    pods = read(out / "pods.csv", ["ts"])
-    frames = read(out / "frames.csv", ["published_at", "processed_at"])
-    backlog = read(out / "backlog.csv", ["ts"])
+    pods = read(out / "pods.csv", ["ts"], ["ts", "desired", "ready"])
+    frames = read(out / "frames.csv", ["published_at", "processed_at"],
+                  ["frame_id", "worker_pod", "delivery_attempt", "num_objects", "download_ms",
+                   "infer_ms", "published_at", "processed_at", "e2e_ms"])
+    backlog = read(out / "backlog.csv", ["ts"], ["ts", "backlog"])
     title = f"{meta['scenario']} / {meta['label']} / {meta['run_id']}"
 
     fig, ax = plt.subplots(figsize=(10, 4))
-    ax.step(pods["ts"], pods["desired"], where="post", label="pods desired")
-    ax.step(pods["ts"], pods["ready"], where="post", label="pods ready")
+    if len(pods):
+        ax.step(pods["ts"], pods["desired"], where="post", label="pods desired")
+        ax.step(pods["ts"], pods["ready"], where="post", label="pods ready")
+        ax.legend(loc="upper left")
     ax.set_ylabel("pods")
-    ax.legend(loc="upper left")
     if len(backlog):
         ax2 = ax.twinx()
         ax2.plot(backlog["ts"], backlog["backlog"], "o-", color="tab:orange", ms=3, label="backlog")
@@ -120,10 +123,14 @@ def charts_and_stats(out: Path, meta: dict) -> dict:
         fig.savefig(out / "latency.png", dpi=150, bbox_inches="tight")
         plt.close(fig)
 
-    hours = pods["ts"].diff().dt.total_seconds().fillna(0) / 3600
-    pod_hours = float((pods["desired"].shift().fillna(0) * hours).sum())
+    if len(pods):
+        hours = pods["ts"].diff().dt.total_seconds().fillna(0) / 3600
+        pod_hours = float((pods["desired"].shift().fillna(0) * hours).sum())
+        max_pods = int(pods["desired"].max())
+    else:
+        pod_hours, max_pods = 0.0, 0
     stats = {"run_id": meta["run_id"], "scenario": meta["scenario"], "label": meta["label"],
-             "max_pods": int(pods["desired"].max()), "pod_hours": round(pod_hours, 3),
+             "max_pods": max_pods, "pod_hours": round(pod_hours, 3),
              "cost_usd": round(pod_hours * POD_HOUR_USD, 4)}
     if len(frames):
         stats["e2e_p95_s"] = round(frames["e2e_ms"].quantile(0.95) / 1000, 1)

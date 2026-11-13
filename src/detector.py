@@ -19,6 +19,7 @@ class BadImage(ValueError):
 
 @dataclass(frozen=True)
 class Detection:
+    class_id: int
     class_name: str
     conf: float
     x1: float
@@ -57,7 +58,7 @@ def to_detections(output: np.ndarray, scale: float, left: int, top: int, img_sha
     for x1, y1, x2, y2, score, cls in rows[rows[:, 4] >= conf_threshold]:
         c = int(cls)
         result.append(Detection(
-            names[c] if c < len(names) else str(c), round(float(score), 3),
+            c, names[c] if c < len(names) else str(c), round(float(score), 3),
             round(float(np.clip((x1 - left) / scale, 0, w)), 1), round(float(np.clip((y1 - top) / scale, 0, h)), 1),
             round(float(np.clip((x2 - left) / scale, 0, w)), 1), round(float(np.clip((y2 - top) / scale, 0, h)), 1),
         ))

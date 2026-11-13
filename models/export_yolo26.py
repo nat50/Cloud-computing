@@ -20,7 +20,8 @@ sys.path.insert(0, str(HERE.parent / "src"))
 from detector import Detector  # noqa: E402
 
 onnx = HERE / "yolo26n.onnx"
-shutil.move(YOLO("yolo26n.pt").export(format="onnx", imgsz=640), onnx)  # downloads yolo26n.pt the first time
+# nms=False activates YOLO26's native end-to-end (NMS-free) head -> output [1, 300, 6]
+shutil.move(YOLO("yolo26n.pt").export(format="onnx", imgsz=640, nms=False), onnx)  # downloads yolo26n.pt the first time
 
 det = Detector(str(onnx))
 print("output shape:", det.session.get_outputs()[0].shape)
