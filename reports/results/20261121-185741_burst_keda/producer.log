@@ -1,0 +1,44 @@
+{"severity": "INFO", "message": "start", "run_id": "20261121-185741", "frames": 7140, "schedule": "120:3.5,180:35,120:3.5"}
+{"severity": "INFO", "message": "progress", "sent": 0, "elapsed_s": 0}
+{"severity": "INFO", "message": "progress", "sent": 200, "elapsed_s": 57}
+{"severity": "INFO", "message": "progress", "sent": 400, "elapsed_s": 114}
+{"severity": "INFO", "message": "progress", "sent": 600, "elapsed_s": 125}
+{"severity": "INFO", "message": "progress", "sent": 800, "elapsed_s": 131}
+{"severity": "INFO", "message": "progress", "sent": 1000, "elapsed_s": 137}
+{"severity": "INFO", "message": "progress", "sent": 1200, "elapsed_s": 142}
+{"severity": "INFO", "message": "progress", "sent": 1400, "elapsed_s": 148}
+{"severity": "INFO", "message": "progress", "sent": 1600, "elapsed_s": 154}
+{"severity": "INFO", "message": "progress", "sent": 1800, "elapsed_s": 159}
+{"severity": "INFO", "message": "progress", "sent": 2000, "elapsed_s": 165}
+{"severity": "INFO", "message": "progress", "sent": 2200, "elapsed_s": 171}
+{"severity": "INFO", "message": "progress", "sent": 2400, "elapsed_s": 177}
+{"severity": "INFO", "message": "progress", "sent": 2600, "elapsed_s": 182}
+{"severity": "INFO", "message": "progress", "sent": 2800, "elapsed_s": 188}
+{"severity": "INFO", "message": "progress", "sent": 3000, "elapsed_s": 194}
+{"severity": "INFO", "message": "progress", "sent": 3200, "elapsed_s": 199}
+{"severity": "INFO", "message": "progress", "sent": 3400, "elapsed_s": 205}
+{"severity": "INFO", "message": "progress", "sent": 3600, "elapsed_s": 211}
+{"severity": "INFO", "message": "progress", "sent": 3800, "elapsed_s": 217}
+{"severity": "INFO", "message": "progress", "sent": 4000, "elapsed_s": 222}
+{"severity": "INFO", "message": "progress", "sent": 4200, "elapsed_s": 228}
+{"severity": "INFO", "message": "progress", "sent": 4400, "elapsed_s": 234}
+{"severity": "INFO", "message": "progress", "sent": 4600, "elapsed_s": 239}
+{"severity": "INFO", "message": "progress", "sent": 4800, "elapsed_s": 245}
+{"severity": "INFO", "message": "progress", "sent": 5000, "elapsed_s": 251}
+{"severity": "INFO", "message": "progress", "sent": 5200, "elapsed_s": 257}
+{"severity": "INFO", "message": "progress", "sent": 5400, "elapsed_s": 262}
+{"severity": "INFO", "message": "progress", "sent": 5600, "elapsed_s": 268}
+{"severity": "INFO", "message": "progress", "sent": 5800, "elapsed_s": 274}
+{"severity": "INFO", "message": "progress", "sent": 6000, "elapsed_s": 279}
+{"severity": "INFO", "message": "progress", "sent": 6200, "elapsed_s": 285}
+{"severity": "INFO", "message": "progress", "sent": 6400, "elapsed_s": 291}
+{"severity": "INFO", "message": "progress", "sent": 6600, "elapsed_s": 297}
+{"severity": "INFO", "message": "progress", "sent": 6800, "elapsed_s": 323}
+{"severity": "INFO", "message": "progress", "sent": 7000, "elapsed_s": 380}
+{"severity": "WARNING", "message": "Connection pool is full, discarding connection: storage.googleapis.com. Connection pool size: 10"}
+{"severity": "WARNING", "message": "Connection pool is full, discarding connection: storage.googleapis.com. Connection pool size: 10"}
+{"severity": "WARNING", "message": "Connection pool is full, discarding connection: storage.googleapis.com. Connection pool size: 10"}
+{"severity": "WARNING", "message": "Connection pool is full, discarding connection: storage.googleapis.com. Connection pool size: 10"}
+{"severity": "WARNING", "message": "Connection pool is full, discarding connection: storage.googleapis.com. Connection pool size: 10"}
+{"severity": "WARNING", "message": "Connection pool is full, discarding connection: storage.googleapis.com. Connection pool size: 10"}
+{"severity": "INFO", "message": "done", "run_id": "20261121-185741", "sent": 7140, "failed": 0}

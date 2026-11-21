@@ -28,7 +28,7 @@ for t in frames_published dead_letters; do
   exists bq show "$PROJECT_ID:$DATASET.$t" ||
     bq mk --table --time_partitioning_field=publish_time "$PROJECT_ID:$DATASET.$t" "$ROOT/infra/bigquery/pubsub_export.json"
 done
-bq query --use_legacy_sql=false --quiet "$(sed "s|__DATASET__|$PROJECT_ID.$DATASET|g" "$ROOT/infra/bigquery/views.sql")" >/dev/null
+sed "s|__DATASET__|$PROJECT_ID.$DATASET|g" "$ROOT/infra/bigquery/views.sql" | bq query --use_legacy_sql=false --quiet >/dev/null
 
 step "Pub/Sub's own service account: may write to BigQuery and publish dead letters"
 gcloud beta services identity create --service=pubsub.googleapis.com >/dev/null 2>&1 || true

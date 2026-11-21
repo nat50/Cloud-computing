@@ -1,0 +1,16 @@
+{
+  "run_id": "20261121-194408",
+  "scenario": "corrupt",
+  "label": "keda",
+  "capacity": 7.0,
+  "schedule": [
+    [
+      300,
+      7.0
+    ]
+  ],
+  "corrupt_rate": 0.02,
+  "start": "2026-11-21T12:44:08+00:00",
+  "image": "us-central1-docker.pkg.dev/project001-480402/yolo/worker:v1",
+  "end": "2026-11-21T12:52:13+00:00"
+}

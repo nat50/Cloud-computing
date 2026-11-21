@@ -1,0 +1,12 @@
+{
+  "run_id": "20261121-185741",
+  "scenario": "burst",
+  "label": "keda",
+  "max_pods": 8,
+  "pod_hours": 0.828,
+  "cost_usd": 0.045,
+  "e2e_p95_s": 416.0,
+  "infer_avg_ms": 98.2,
+  "processed_per_s_max": 13.4,
+  "scale_up_s": 140
+}
