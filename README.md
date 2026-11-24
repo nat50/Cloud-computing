@@ -50,5 +50,9 @@ _(Điền sau khi chạy kiểm thử: bảng `summary.csv` của 5 kịch bản
 
 ## Nguồn
 
-- Video thử nghiệm: _(link + license)_
+- Video thử nghiệm:
+**Title:** 4K Road traffic video for object detection and tracking - free download now!
+**Author:** Karol Majek
+**URL:** https://www.youtube.com/watch?v=MNn9qKG2UFI
+**License:** Standard YouTube License (explicitly permitted by the author for free download and object detection/tracking usage)
 - YOLO26: Ultralytics, https://docs.ultralytics.com
