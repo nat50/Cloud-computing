@@ -6,7 +6,7 @@ Camera giả lập gửi frame lên Cloud Storage, Pub/Sub phân phối cho các
 
 ![Kiến trúc](docs/architecture.png)
 
-- Video demo: _(thêm link)_
+- Video demo: (https://www.youtube.com/watch?v=yxmkMLeSWuQ)
 - Kế hoạch: [PLAN.md](PLAN.md) · Hướng dẫn chạy: [docs/HUONG-DAN.md](docs/HUONG-DAN.md)
 
 ## Cách hoạt động
